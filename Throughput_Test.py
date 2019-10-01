@@ -57,19 +57,29 @@ def Generate_Packet():
 
     return packet_header, packet_payload
 
+
+def Send_Packet(server_url, packet_header, packet_payload):
+    packet_header, packet_payload = Generate_Packet()
+    response = requests.request("POST", server_url, data=packet_payload, headers=packet_header)
+    response_code = response.text[-2:-1]
+    return response_code
+
+
 def Simulation(packet_count, packet_interval):
     server_url = 'http://117.16.136.97:4443'
     for packet_number in range(0, packet_count):
         packet_header, packet_payload = Generate_Packet()
-        response = requests.request("POST", server_url, data=packet_payload, headers=packet_header)
-        response_code = response.text[-2:-1]
+        try:
+            response_code = Send_Packet(server_url, packet_header, packet_payload)
+        except:
+            packet_count -= 1
 
-        print(str(packet_header))
+        print(str(packet_header) + str(response_code))
         sleep(packet_interval)
 
 packet_count = 10000
 packet_interval = 0
-bots = 10
+bots = 20
 
 for i in range(10):
     threading.Thread(target=Simulation, args=(packet_count, packet_interval)).start()
